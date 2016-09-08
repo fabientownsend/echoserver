@@ -5,7 +5,7 @@ class EchoServer
   end
 
   def read_and_display_stream
-    while "exit\n" != text_read = read do
+    while "exit\n" != text_read = read
       write(text_read)
     end
   end
