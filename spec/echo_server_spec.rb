@@ -1,19 +1,37 @@
 require 'echo_server'
-require 'fake_cli'
 
 RSpec.describe EchoServer do
-  before do
-    cli = FakeCli.new
-    @echo_server = EchoServer.new(cli)
+  describe "test input" do
+    it 'read and displays until it reads exit' do
+        ui = StringIO.new("a\nb\nexit\n")
+        ui2 = StringIO.new
+        server = EchoServer.new
+        server.set_reader(ui)
+        server.set_writer(ui2)
+
+        server.read_and_display_stream
+
+        expect(ui2.string).to eq("a\nb\n")
+    end
+
+    it 'reads things' do
+        ui = StringIO.new("test")
+        server = EchoServer.new
+        server.set_reader(ui)
+
+        expect(server.read).to eq("test")
+    end
   end
 
-  it "should return what is displayed in the cli" do
-    $stdin = StringIO.new("hello")
-    expect(@echo_server.read).to eq "hello"
-  end
+  describe "test output" do
+      it 'prints things' do
+        ui = StringIO.new
+        server = EchoServer.new
+        server.set_writer(ui)
 
-  it "should return what was write in the cli" do
-    @echo_server.write("hello")
-    expect($stdout.string).to eq "hello\n"
+        server.write("test output")
+
+        expect(ui.string).to eq("test output\n")
+    end
   end
 end
