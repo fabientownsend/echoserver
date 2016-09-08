@@ -1,29 +1,20 @@
-#todo merge interface
-#read_and_display_stream remove duplication
-
 class EchoServer
-  def set_writer(ui)
-    @writer_interface = ui
-  end
-
-  def set_reader(ui)
-    @reader_interface = ui
+  def initialize(input, output)
+    @input = input
+    @output = output
   end
 
   def read_and_display_stream
-    text = read
-
-    until text == "exit\n" do
-        write(text)
-        text = read
+    while "exit\n" != text_read = read do
+      write(text_read)
     end
   end
 
   def read
-    @reader_interface.gets
+    @input.gets
   end
 
   def write(txt)
-    @writer_interface.puts(txt)
+    @output.puts(txt)
   end
 end
