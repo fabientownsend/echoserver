@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'echo_server'
 
 RSpec.describe EchoServer do
